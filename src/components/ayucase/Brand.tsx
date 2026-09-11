@@ -103,10 +103,10 @@ export function AbdmBadge({ className }: { className?: string }) {
         "inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-info-soft px-3 py-1 text-xs font-semibold text-navy",
         className,
       )}
-      title="Data model designed to align with ABDM and FHIR structures. Not connected to any live government system."
+      title="Demo-ready architecture aligned with ABDM and FHIR structures. No live government integration."
     >
       <ShieldCheck className="size-3.5" aria-hidden />
-      ABDM-compliant sandbox
+      ABDM / FHIR · Demo-ready architecture
     </span>
   );
 }
@@ -119,9 +119,8 @@ export function ClinicalDisclaimer({ className }: { className?: string }) {
         className,
       )}
     >
-      <strong className="font-semibold">AyuCase supports documentation and triage.</strong> A doctor
-      makes the final clinical decision. AyuCase does not diagnose, prescribe, or claim clinical
-      certainty.
+      <strong className="font-semibold">AyuCase is an AI documentation assistant, not a diagnostic tool.</strong>{" "}
+      Final clinical decisions are made by the doctor.
     </p>
   );
 }

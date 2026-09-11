@@ -84,7 +84,6 @@ interface Ctx {
   startCase: () => CaseRecord;
   startDemoCase: (scenario: DemoScenarioId) => CaseRecord;
   ensureCase: () => CaseRecord;
-  loadDemo: (caseRecord: CaseRecord) => void;
   updateCase: (patch: Partial<CaseRecord>) => void;
   saveAnswer: (answer: Answer) => void;
   addDocument: (doc: MedicalDocument) => void;
@@ -108,7 +107,7 @@ export function AyuProvider({ children }: { children: ReactNode }) {
   const [submitted, setSubmitted] = useState<CaseRecord[]>([]);
   const [remoteCases, setRemoteCases] = useState<CaseRecord[]>([]);
   const [casesLoading, setCasesLoading] = useState(false);
-  const [hydrated, loadDemo, setHydrated] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     try {
@@ -138,7 +137,7 @@ export function AyuProvider({ children }: { children: ReactNode }) {
     const root = document.documentElement;
     root.classList.toggle("text-xl-mode", settings.largeText || settings.visualGuide);
     root.classList.toggle("hc", settings.highContrast);
-  }, [settings.largeText, settings.highContrast]);
+  }, [settings.largeText, settings.visualGuide, settings.highContrast]);
 
   const setSettings = useCallback((patch: Partial<Settings>) => {
     setSettingsState((s) => ({ ...s, ...patch }));
@@ -236,10 +235,6 @@ export function AyuProvider({ children }: { children: ReactNode }) {
     setActiveCase((c) => (c && c.id === id ? { ...c, doctorNote: note } : c));
     void pushCaseNote(id, note).catch(() => {
       /* demo cases are not stored in the shared queue */
-  const loadDemo = useCallback((c: CaseRecord) => {
-    setSettingsState((s) => ({ ...s, language: c.language as any }));
-    setActiveCase(c);
-  }, []);
     });
   }, []);
 
@@ -284,7 +279,7 @@ export function AyuProvider({ children }: { children: ReactNode }) {
     saveNote,
     refreshCases,
     casesLoading,
-    hydrated, loadDemo,
+    hydrated,
   };
 
   return <AyuContext.Provider value={value}>{children}</AyuContext.Provider>;

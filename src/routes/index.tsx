@@ -6,6 +6,7 @@ import {
   FileText,
   HandHeart,
   Lock,
+  PlayCircle,
   RotateCcw,
   Stethoscope,
   Type,
@@ -31,7 +32,6 @@ import {
   StopAudioButton,
   VisualQuestionCard,
 } from "@/components/ayucase/Accessibility";
-import { RAHUL, MEERA } from "@/lib/ayucase/demoData";
 import { useAyu } from "@/lib/ayucase/store";
 import { useA11y, useScreenAudio } from "@/lib/ayucase/a11y";
 import { CONFIRMATIONS, SCREEN_GUIDE, SIGN_PHRASES } from "@/lib/ayucase/i18n";
@@ -62,7 +62,7 @@ export const Route = createFileRoute("/")({
 
 function Landing() {
   const navigate = useNavigate();
-  const { settings, setSettings, startCase, activeCase, loadDemo } = useAyu();
+  const { settings, setSettings, startCase, startDemoCase, activeCase } = useAyu();
   const { say } = useA11y();
   useScreenAudio(SCREEN_GUIDE["home"]);
 
@@ -169,6 +169,48 @@ function Landing() {
               </div>
             </div>
 
+            <section className="mt-6 rounded-3xl border-2 border-warning/60 bg-navy-deep/50 p-5" aria-labelledby="sih-demo-title">
+              <div className="flex items-center gap-3">
+                <PlayCircle className="size-7 text-warning" aria-hidden />
+                <div>
+                  <h2 id="sih-demo-title" className="text-xl font-bold text-primary-foreground">Start SIH Demo</h2>
+                  <p className="text-sm text-primary-foreground/80">Choose a fictional, pre-filled patient journey.</p>
+                </div>
+              </div>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="h-auto min-h-20 justify-start whitespace-normal rounded-2xl border-2 border-primary-foreground/40 bg-primary-foreground/10 px-4 py-3 text-left text-primary-foreground hover:bg-primary-foreground/20 hover:text-primary-foreground"
+                  onClick={() => {
+                    startDemoCase("rahul");
+                    navigate({ to: "/consent" });
+                  }}
+                >
+                  <span><strong className="block">Rahul Verma</strong><span className="block text-sm font-normal opacity-85">Routine fever and sore throat</span></span>
+                </Button>
+                <Button
+                  size="lg"
+                  className="h-auto min-h-20 justify-start whitespace-normal rounded-2xl bg-warning px-4 py-3 text-left text-warning-foreground hover:bg-warning/90"
+                  onClick={() => {
+                    startDemoCase("meera");
+                    navigate({ to: "/consent" });
+                  }}
+                >
+                  <span><strong className="block">Meera Sharma</strong><span className="block text-sm font-normal">Diabetes, hypertension and urgent symptoms</span></span>
+                </Button>
+              </div>
+              <Button
+                size="lg"
+                variant="secondary"
+                className="mt-3 h-12 w-full rounded-2xl font-bold"
+                onClick={() => navigate({ to: "/doctor-demo" })}
+              >
+                <Stethoscope className="size-5" aria-hidden />
+                Open Doctor Demo Dashboard
+              </Button>
+            </section>
+
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
               <Button
                 size="lg"
@@ -206,49 +248,9 @@ function Landing() {
               >
                 <span className="flex items-center gap-3">
                   <Stethoscope className="size-5" aria-hidden />
-                  Doctor Login
+                   Secure Doctor Login
                 </span>
-                <ArrowRight className="size-5" aria-hidden />
-            <div className="mt-8 rounded-3xl border-2 border-warning/30 bg-warning-soft/30 p-6">
-              <h2 className="text-lg font-bold text-primary-foreground">
-                SIH Presentation: One-click Demo Scenarios
-              </h2>
-              <p className="mt-1 text-sm text-primary-foreground/80">
-                Instantly load pre-filled patient cases for the judges.
-              </p>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <Button
-                  size="lg"
-                  variant="secondary"
-                  className="h-16 justify-between rounded-2xl border-2 border-primary/20 bg-card text-base font-bold text-navy hover:bg-surface"
-                  onClick={() => {
-                    loadDemo(MEERA);
-                    navigate({ to: "/review" });
-                  }}
-                >
-                  <span className="flex flex-col items-start leading-tight">
-                    <span>Scenario 1: Meera Sharma</span>
-                    <span className="text-xs font-normal opacity-70">Hindi · Chest Pain · Red Flags</span>
-                  </span>
-                  <ArrowRight className="size-5" aria-hidden />
-                </Button>
-                <Button
-                  size="lg"
-                  variant="secondary"
-                  className="h-16 justify-between rounded-2xl border-2 border-primary/20 bg-card text-base font-bold text-navy hover:bg-surface"
-                  onClick={() => {
-                    loadDemo(RAHUL);
-                    navigate({ to: "/review" });
-                  }}
-                >
-                  <span className="flex flex-col items-start leading-tight">
-                    <span>Scenario 2: Rahul Verma</span>
-                    <span className="text-xs font-normal opacity-70">English · Fever · Routine</span>
-                  </span>
-                  <ArrowRight className="size-5" aria-hidden />
-                </Button>
-              </div>
-            </div>
+                 <ArrowRight className="size-5" aria-hidden />
               </Button>
             </div>
 
