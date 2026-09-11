@@ -2,7 +2,9 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
   ArrowRight,
   Contrast,
+  Ear,
   FileText,
+  HandHeart,
   Lock,
   RotateCcw,
   Stethoscope,
@@ -20,7 +22,18 @@ import {
   StatusBar,
 } from "@/components/ayucase/Brand";
 import { CASE_STEPS } from "@/components/ayucase/Stepper";
-import { useAyu, speak } from "@/lib/ayucase/store";
+import {
+  AccessibilityButton,
+  CaptionBar,
+  ListenButton,
+  SignLanguagePanel,
+  SpeechSpeedControl,
+  StopAudioButton,
+  VisualQuestionCard,
+} from "@/components/ayucase/Accessibility";
+import { useAyu } from "@/lib/ayucase/store";
+import { useA11y, useScreenAudio } from "@/lib/ayucase/a11y";
+import { CONFIRMATIONS, SCREEN_GUIDE, SIGN_PHRASES } from "@/lib/ayucase/i18n";
 import { LANGUAGES } from "@/lib/ayucase/types";
 import { cn } from "@/lib/utils";
 
