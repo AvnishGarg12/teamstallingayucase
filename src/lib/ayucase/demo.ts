@@ -10,12 +10,12 @@ const DEMO_SOURCE: Record<DemoScenarioId, CaseRecord> = {
 
 export function createDemoCase(id: DemoScenarioId): CaseRecord {
   const source = DEMO_SOURCE[id];
+  const { queueTime: _queueTime, ...caseWithoutQueueTime } = structuredClone(source);
   return {
-    ...structuredClone(source),
+    ...caseWithoutQueueTime,
     id: `sih-${id}-${Date.now()}`,
     consentGiven: false,
     status: "in-progress",
-    queueTime: undefined,
     doctorNote: "",
   };
 }

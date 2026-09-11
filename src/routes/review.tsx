@@ -121,7 +121,7 @@ function ReviewPage() {
               <Link to="/">Back to home</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="h-14 rounded-2xl border-2 text-base">
-              <Link to="/doctor">Open doctor view</Link>
+              <Link to={activeCase?.id.startsWith("sih-") ? "/doctor-demo" : "/doctor"}>Open doctor view</Link>
             </Button>
           </div>
           <ClinicalDisclaimer className="mt-8 text-left" />

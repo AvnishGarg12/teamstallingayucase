@@ -1,14 +1,12 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   AlertTriangle,
   CheckCircle2,
   ClipboardCheck,
-  Clock3,
   FileText,
   Pencil,
   RotateCcw,
-  Stethoscope,
   TimerReset,
   Users,
   XCircle,
@@ -223,7 +221,7 @@ function DoctorDemoPage() {
   );
 }
 
-function Metric({ icon, value, label }: { icon: React.ReactNode; value: string; label: string }) {
+function Metric({ icon, value, label }: { icon: ReactNode; value: string; label: string }) {
   return <div className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4 shadow-card"><span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary">{icon}</span><span><strong className="block text-2xl text-foreground">{value}</strong><span className="text-sm text-muted-foreground">{label}</span></span></div>;
 }
 
