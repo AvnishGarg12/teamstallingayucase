@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   Accessibility,
   AlertTriangle,
@@ -479,9 +479,9 @@ export function SignLanguagePanel({
   const [openPanel, setOpenPanel] = useState(true);
   const [selected, setSelected] = useState(phraseId);
 
-  if (selected !== phraseId && SIGN_PHRASES.some((p) => p.id === phraseId)) {
-    setSelected(phraseId);
-  }
+  useEffect(() => {
+    if (SIGN_PHRASES.some((p) => p.id === phraseId)) setSelected(phraseId);
+  }, [phraseId]);
 
   if (!settings.signPanel) return null;
 
