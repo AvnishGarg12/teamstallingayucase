@@ -112,8 +112,8 @@ function Landing() {
         </div>
 
 
-        <section className="mt-8 grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-          <div>
+        <section className="mt-8 grid min-w-0 gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="min-w-0">
             <div className="flex items-center gap-4">
               <AiOrb className="size-14" />
               <p className="text-sm font-semibold uppercase tracking-[0.18em] text-warning">
@@ -260,7 +260,7 @@ function Landing() {
             </p>
           </div>
 
-          <aside className="space-y-5">
+          <aside className="min-w-0 space-y-5">
             <div className="rounded-3xl border border-border bg-card p-6 shadow-lift">
               <h2 className="text-lg font-bold text-navy">Make it easy to use</h2>
               <p className="mt-1 text-sm text-muted-foreground">

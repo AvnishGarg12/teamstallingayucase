@@ -408,7 +408,7 @@ function ReviewPage() {
               )}
 
               {needsReview.length > 0 && (
-                <p className="mt-4 rounded-2xl border border-danger/40 bg-danger-soft px-4 py-3 text-sm font-medium text-danger">
+                <p className="mt-4 rounded-2xl border border-warning/40 bg-warning-soft px-4 py-3 text-sm font-medium text-warning">
                   {needsReview.length} detail{needsReview.length === 1 ? "" : "s"} could not be read
                   clearly. Please check them on the documents page.
                 </p>

@@ -354,7 +354,7 @@ function InterviewPage() {
                       <div className="flex flex-wrap items-center gap-2">
                         <Button
                           type="button"
-                          variant={listening ? "destructive" : "secondary"}
+                          variant="secondary"
                           size="lg"
                           className="h-12 rounded-2xl"
                           onClick={startVoice}

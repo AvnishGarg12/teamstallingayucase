@@ -146,7 +146,7 @@ function ConsentPage() {
             </span>
           </label>
           {touched && !consent && (
-            <p className="mt-2 text-sm font-semibold text-danger" role="alert" aria-live="assertive">
+            <p className="mt-2 text-sm font-semibold text-warning" role="alert" aria-live="assertive">
               Please tick the consent box to continue.
             </p>
           )}
@@ -232,7 +232,7 @@ function ConsentPage() {
           </div>
 
           {touched && missing && (
-            <p className="mt-4 text-sm font-semibold text-danger" role="alert" aria-live="assertive">
+            <p className="mt-4 text-sm font-semibold text-warning" role="alert" aria-live="assertive">
               Please fill name, age, gender, a 10-digit mobile number and city.
             </p>
           )}
@@ -271,7 +271,7 @@ function Field({
     <div className="space-y-2">
       <Label className="text-base font-semibold text-foreground">
         {label}
-        {required && <span className="text-danger"> *</span>}
+        {required && <span className="text-warning"> *</span>}
       </Label>
       {children}
     </div>

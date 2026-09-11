@@ -373,7 +373,7 @@ function DocumentCard({
           <Button
             variant="ghost"
             size="sm"
-            className="rounded-xl text-danger hover:text-danger"
+            className="rounded-xl text-warning hover:text-warning"
             onClick={onRemove}
             aria-label={`Remove ${doc.fileName}`}
           >
@@ -395,7 +395,7 @@ function DocumentCard({
               className={cn(
                 "rounded-2xl border px-4 py-3",
                 field.confidence === "Needs Review"
-                  ? "border-danger/40 bg-danger-soft/40"
+                  ? "border-warning/40 bg-warning-soft/40"
                   : "border-border bg-surface",
               )}
             >

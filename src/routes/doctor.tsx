@@ -125,7 +125,7 @@ function StatusPill({ status }: { status: CaseRecord["status"] }) {
         status === "approved"
           ? "border-success/40 bg-success-soft text-success"
           : status === "rejected"
-            ? "border-danger/40 bg-danger-soft text-danger"
+            ? "border-warning/40 bg-warning-soft text-warning"
             : "border-border bg-surface text-muted-foreground",
       )}
     >
@@ -360,7 +360,7 @@ function DoctorPage() {
                 />
               </div>
               {authMessage && (
-                <p className="text-sm font-medium text-danger" role="status">
+                <p className="text-sm font-medium text-warning" role="status">
                   {authMessage}
                 </p>
               )}
@@ -556,7 +556,7 @@ function DoctorPage() {
                     <span className="mt-2 flex flex-wrap gap-2">
                       <StatusPill status={c.status} />
                       {c.redFlags.length > 0 && (
-                        <span className="rounded-full border border-danger/40 bg-danger-soft px-2.5 py-0.5 text-xs font-semibold text-danger">
+                        <span className="rounded-full border border-warning/40 bg-warning-soft px-2.5 py-0.5 text-xs font-semibold text-warning">
                           {c.redFlags.length} urgent flag{c.redFlags.length > 1 ? "s" : ""}
                         </span>
                       )}
