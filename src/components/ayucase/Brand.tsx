@@ -106,7 +106,7 @@ export function AbdmBadge({ className }: { className?: string }) {
       title="Data model designed to align with ABDM and FHIR structures. Not connected to any live government system."
     >
       <ShieldCheck className="size-3.5" aria-hidden />
-      ABDM / FHIR-ready
+      ABDM-compliant sandbox
     </span>
   );
 }

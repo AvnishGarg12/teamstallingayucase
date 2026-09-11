@@ -158,7 +158,11 @@ export function useScreenAudio(
   const spokenFor = useRef<string>("");
 
   useEffect(() => {
-    if (!ready || !screen || !settings.audioGuide) return;
+    if (!settings.audioGuide) {
+      spokenFor.current = "";
+      return;
+    }
+    if (!ready || !screen) return;
     const key = `${settings.language}|${typeof screen.title === "string" ? screen.title : screen.title.en}`;
     if (spokenFor.current === key) return;
     spokenFor.current = key;

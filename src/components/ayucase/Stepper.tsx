@@ -30,7 +30,7 @@ function Marker({ state, index }: { state: "done" | "active" | "todo"; index: nu
   return (
     <span
       className={cn(
-        "flex size-10 shrink-0 items-center justify-center rounded-2xl border-2 text-sm font-bold transition-colors",
+        "flex size-9 sm:size-10 shrink-0 items-center justify-center rounded-2xl border-2 text-sm font-bold transition-colors",
         state === "done" && "border-primary bg-primary text-primary-foreground",
         state === "active" &&
           "border-warning bg-warning text-warning-foreground shadow-[0_0_0_6px_color-mix(in_oklab,var(--color-warning)_22%,transparent)]",
