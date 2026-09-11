@@ -127,10 +127,23 @@ function Landing() {
               and walk into the doctor's room with everything already organised.
             </p>
 
+            <VisualQuestionCard
+              text={SIGN_PHRASES[1]!.text}
+              icon="language"
+              children={undefined}
+            />
+
             <div className="mt-8 rounded-3xl glass-panel-dark p-5">
-              <h2 className="text-base font-bold text-primary-foreground">
-                Choose your language / अपनी भाषा चुनें
-              </h2>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <h2 className="text-base font-bold text-primary-foreground">
+                  Choose your language / अपनी भाषा चुनें
+                </h2>
+                <ListenButton
+                  label="Listen / सुनें"
+                  text={SIGN_PHRASES[1]!.text}
+                  className="bg-primary-foreground/15 text-primary-foreground hover:bg-primary-foreground/25"
+                />
+              </div>
               <div className="mt-4 grid gap-3 sm:grid-cols-3">
                 {LANGUAGES.map((lang) => {
                   const active = settings.language === lang.code;
@@ -140,8 +153,9 @@ function Landing() {
                       type="button"
                       onClick={() => {
                         setSettings({ language: lang.code });
-                        speak(lang.native, settings.audioGuide, lang.code);
+                        say(lang.native, { force: settings.audioGuide });
                       }}
+
                       aria-pressed={active}
                       className={cn(
                         "min-h-16 rounded-2xl border-2 px-4 py-3 text-left transition-colors",
