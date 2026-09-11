@@ -13,3 +13,5 @@
 - [x] Real text extraction from document photos (Lovable AI reads each photo)
 - [x] Restrict console access to approved clinic staff only (photos and cases are staff-only)
 - [x] Accessibility Mode for blind, low-vision, deaf and hard-of-hearing patients
+- [ ] SIH presentation demo scenarios and doctor dashboard
+- [ ] Full route, button, language, accessibility, and mobile validation

@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ConsentRouteImport } from './routes/consent'
 import { Route as DoctorRouteImport } from './routes/doctor'
+import { Route as DoctorDemoRouteImport } from './routes/doctor-demo'
 import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as InterviewRouteImport } from './routes/interview'
 import { Route as ReviewRouteImport } from './routes/review'
@@ -29,6 +30,11 @@ const ConsentRoute = ConsentRouteImport.update({
 const DoctorRoute = DoctorRouteImport.update({
   id: '/doctor',
   path: '/doctor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DoctorDemoRoute = DoctorDemoRouteImport.update({
+  id: '/doctor-demo',
+  path: '/doctor-demo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DocumentsRoute = DocumentsRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/consent': typeof ConsentRoute
   '/doctor': typeof DoctorRoute
+  '/doctor-demo': typeof DoctorDemoRoute
   '/documents': typeof DocumentsRoute
   '/interview': typeof InterviewRoute
   '/review': typeof ReviewRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/consent': typeof ConsentRoute
   '/doctor': typeof DoctorRoute
+  '/doctor-demo': typeof DoctorDemoRoute
   '/documents': typeof DocumentsRoute
   '/interview': typeof InterviewRoute
   '/review': typeof ReviewRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/consent': typeof ConsentRoute
   '/doctor': typeof DoctorRoute
+  '/doctor-demo': typeof DoctorDemoRoute
   '/documents': typeof DocumentsRoute
   '/interview': typeof InterviewRoute
   '/review': typeof ReviewRoute
@@ -75,14 +84,28 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/consent' | '/doctor' | '/documents' | '/interview' | '/review'
+    | '/'
+    | '/consent'
+    | '/doctor'
+    | '/doctor-demo'
+    | '/documents'
+    | '/interview'
+    | '/review'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/consent' | '/doctor' | '/documents' | '/interview' | '/review'
+  to:
+    | '/'
+    | '/consent'
+    | '/doctor'
+    | '/doctor-demo'
+    | '/documents'
+    | '/interview'
+    | '/review'
   id:
     | '__root__'
     | '/'
     | '/consent'
     | '/doctor'
+    | '/doctor-demo'
     | '/documents'
     | '/interview'
     | '/review'
@@ -92,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ConsentRoute: typeof ConsentRoute
   DoctorRoute: typeof DoctorRoute
+  DoctorDemoRoute: typeof DoctorDemoRoute
   DocumentsRoute: typeof DocumentsRoute
   InterviewRoute: typeof InterviewRoute
   ReviewRoute: typeof ReviewRoute
@@ -118,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/doctor'
       fullPath: '/doctor'
       preLoaderRoute: typeof DoctorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/doctor-demo': {
+      id: '/doctor-demo'
+      path: '/doctor-demo'
+      fullPath: '/doctor-demo'
+      preLoaderRoute: typeof DoctorDemoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/documents': {
@@ -148,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ConsentRoute: ConsentRoute,
   DoctorRoute: DoctorRoute,
+  DoctorDemoRoute: DoctorDemoRoute,
   DocumentsRoute: DocumentsRoute,
   InterviewRoute: InterviewRoute,
   ReviewRoute: ReviewRoute,

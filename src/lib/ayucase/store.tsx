@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import { DEMO_CASES } from "./demoData";
+import { createDemoCase, type DemoScenarioId } from "./demo";
 import { fetchCases, pushCase, pushCaseNote, pushCaseStatus } from "./cases";
 import type {
   Answer,
@@ -81,6 +82,7 @@ interface Ctx {
   setSettings: (patch: Partial<Settings>) => void;
   activeCase: CaseRecord | null;
   startCase: () => CaseRecord;
+  startDemoCase: (scenario: DemoScenarioId) => CaseRecord;
   ensureCase: () => CaseRecord;
   updateCase: (patch: Partial<CaseRecord>) => void;
   saveAnswer: (answer: Answer) => void;
@@ -133,9 +135,9 @@ export function AyuProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const root = document.documentElement;
-    root.classList.toggle("text-xl-mode", settings.largeText);
+    root.classList.toggle("text-xl-mode", settings.largeText || settings.visualGuide);
     root.classList.toggle("hc", settings.highContrast);
-  }, [settings.largeText, settings.highContrast]);
+  }, [settings.largeText, settings.visualGuide, settings.highContrast]);
 
   const setSettings = useCallback((patch: Partial<Settings>) => {
     setSettingsState((s) => ({ ...s, ...patch }));
@@ -146,6 +148,13 @@ export function AyuProvider({ children }: { children: ReactNode }) {
     setActiveCase(created);
     return created;
   }, [settings.language]);
+
+  const startDemoCase = useCallback((scenario: DemoScenarioId) => {
+    const created = createDemoCase(scenario);
+    setSettingsState((current) => ({ ...current, language: created.language }));
+    setActiveCase(created);
+    return created;
+  }, []);
 
   const ensureCase = useCallback(() => {
     if (activeCase) return activeCase;
@@ -256,6 +265,7 @@ export function AyuProvider({ children }: { children: ReactNode }) {
     setSettings,
     activeCase,
     startCase,
+    startDemoCase,
     ensureCase,
     updateCase,
     saveAnswer,

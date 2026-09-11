@@ -121,7 +121,7 @@ function ReviewPage() {
               <Link to="/">Back to home</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="h-14 rounded-2xl border-2 text-base">
-              <Link to="/doctor">Open doctor view</Link>
+              <Link to={activeCase?.id.startsWith("sih-") ? "/doctor-demo" : "/doctor"}>Open doctor view</Link>
             </Button>
           </div>
           <ClinicalDisclaimer className="mt-8 text-left" />
@@ -408,7 +408,7 @@ function ReviewPage() {
               )}
 
               {needsReview.length > 0 && (
-                <p className="mt-4 rounded-2xl border border-danger/40 bg-danger-soft px-4 py-3 text-sm font-medium text-danger">
+                <p className="mt-4 rounded-2xl border border-warning/40 bg-warning-soft px-4 py-3 text-sm font-medium text-warning">
                   {needsReview.length} detail{needsReview.length === 1 ? "" : "s"} could not be read
                   clearly. Please check them on the documents page.
                 </p>

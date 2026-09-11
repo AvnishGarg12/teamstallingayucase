@@ -4,7 +4,7 @@ import type { Confidence } from "@/lib/ayucase/types";
 const styles: Record<Confidence, string> = {
   High: "border-success/40 bg-success-soft text-success",
   Medium: "border-warning/40 bg-warning-soft text-warning",
-  "Needs Review": "border-danger/40 bg-danger-soft text-danger",
+  "Needs Review": "border-warning/40 bg-warning-soft text-warning",
 };
 
 export function ConfidenceBadge({

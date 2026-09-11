@@ -325,7 +325,7 @@ export function PatientA11yBar({ className }: { className?: string }) {
 
       <Label
         htmlFor="bar-audio"
-        className="flex min-h-11 items-center gap-2 rounded-2xl border border-border bg-surface px-3 text-sm font-semibold text-foreground"
+        className="flex min-h-11 w-full items-center justify-between gap-2 rounded-2xl border border-border bg-surface px-3 text-sm font-semibold text-foreground sm:w-auto"
       >
         <Volume2 className="size-5 text-primary" aria-hidden />
         Audio Guidance
@@ -342,7 +342,7 @@ export function PatientA11yBar({ className }: { className?: string }) {
 
       <Label
         htmlFor="bar-visual"
-        className="flex min-h-11 items-center gap-2 rounded-2xl border border-border bg-surface px-3 text-sm font-semibold text-foreground"
+        className="flex min-h-11 w-full items-center justify-between gap-2 rounded-2xl border border-border bg-surface px-3 text-sm font-semibold text-foreground sm:w-auto"
       >
         <Eye className="size-5 text-primary" aria-hidden />
         Visual Guidance

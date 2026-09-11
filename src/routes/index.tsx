@@ -6,6 +6,7 @@ import {
   FileText,
   HandHeart,
   Lock,
+  PlayCircle,
   RotateCcw,
   Stethoscope,
   Type,
@@ -61,7 +62,7 @@ export const Route = createFileRoute("/")({
 
 function Landing() {
   const navigate = useNavigate();
-  const { settings, setSettings, startCase, activeCase } = useAyu();
+  const { settings, setSettings, startCase, startDemoCase, activeCase } = useAyu();
   const { say } = useA11y();
   useScreenAudio(SCREEN_GUIDE["home"]);
 
@@ -111,8 +112,8 @@ function Landing() {
         </div>
 
 
-        <section className="mt-8 grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-          <div>
+        <section className="mt-8 grid min-w-0 gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="min-w-0">
             <div className="flex items-center gap-4">
               <AiOrb className="size-14" />
               <p className="text-sm font-semibold uppercase tracking-[0.18em] text-warning">
@@ -168,6 +169,48 @@ function Landing() {
               </div>
             </div>
 
+            <section className="mt-6 rounded-3xl border-2 border-warning/60 bg-navy-deep/50 p-5" aria-labelledby="sih-demo-title">
+              <div className="flex items-center gap-3">
+                <PlayCircle className="size-7 text-warning" aria-hidden />
+                <div>
+                  <h2 id="sih-demo-title" className="text-xl font-bold text-primary-foreground">Start SIH Demo</h2>
+                  <p className="text-sm text-primary-foreground/80">Choose a fictional, pre-filled patient journey.</p>
+                </div>
+              </div>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="h-auto min-h-20 justify-start whitespace-normal rounded-2xl border-2 border-primary-foreground/40 bg-primary-foreground/10 px-4 py-3 text-left text-primary-foreground hover:bg-primary-foreground/20 hover:text-primary-foreground"
+                  onClick={() => {
+                    startDemoCase("rahul");
+                    navigate({ to: "/consent" });
+                  }}
+                >
+                  <span><strong className="block">Rahul Verma</strong><span className="block text-sm font-normal opacity-85">Routine fever and sore throat</span></span>
+                </Button>
+                <Button
+                  size="lg"
+                  className="h-auto min-h-20 justify-start whitespace-normal rounded-2xl bg-warning px-4 py-3 text-left text-warning-foreground hover:bg-warning/90"
+                  onClick={() => {
+                    startDemoCase("meera");
+                    navigate({ to: "/consent" });
+                  }}
+                >
+                  <span><strong className="block">Meera Sharma</strong><span className="block text-sm font-normal">Diabetes, hypertension and urgent symptoms</span></span>
+                </Button>
+              </div>
+              <Button
+                size="lg"
+                variant="secondary"
+                className="mt-3 h-12 w-full rounded-2xl font-bold"
+                onClick={() => navigate({ to: "/doctor-demo" })}
+              >
+                <Stethoscope className="size-5" aria-hidden />
+                Open Doctor Demo Dashboard
+              </Button>
+            </section>
+
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
               <Button
                 size="lg"
@@ -205,9 +248,9 @@ function Landing() {
               >
                 <span className="flex items-center gap-3">
                   <Stethoscope className="size-5" aria-hidden />
-                  Doctor Login
+                   Secure Doctor Login
                 </span>
-                <ArrowRight className="size-5" aria-hidden />
+                 <ArrowRight className="size-5" aria-hidden />
               </Button>
             </div>
 
@@ -217,7 +260,7 @@ function Landing() {
             </p>
           </div>
 
-          <aside className="space-y-5">
+          <aside className="min-w-0 space-y-5">
             <div className="rounded-3xl border border-border bg-card p-6 shadow-lift">
               <h2 className="text-lg font-bold text-navy">Make it easy to use</h2>
               <p className="mt-1 text-sm text-muted-foreground">

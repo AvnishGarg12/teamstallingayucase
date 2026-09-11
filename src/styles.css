@@ -162,6 +162,14 @@
   font-size: 118%;
 }
 
+/* The editor's injected badge is hidden in presentation captures. */
+[data-lovable-badge],
+#lovable-badge,
+.lovable-badge,
+a[href*="lovable.dev"][style*="position: fixed"] {
+  display: none !important;
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
@@ -176,7 +184,7 @@
   h1,
   h2,
   h3 {
-    letter-spacing: -0.015em;
+    letter-spacing: 0;
   }
 }
 
