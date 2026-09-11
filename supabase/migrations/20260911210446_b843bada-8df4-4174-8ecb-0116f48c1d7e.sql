@@ -1,0 +1,2 @@
+drop policy if exists "Staff can read case documents" on storage.objects;
+create policy "Staff can read case documents" on storage.objects for select to authenticated using (bucket_id = 'case-documents' and public.has_role(auth.uid(), 'staff'));
