@@ -2,6 +2,7 @@ import { Check } from "lucide-react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { AppHeader } from "./Brand";
+import { CaptionBar, PatientA11yBar } from "./Accessibility";
 
 export const CASE_STEPS = [
   { id: "profile", hi: "पहचान", en: "Identify" },
@@ -177,7 +178,9 @@ export function KioskShell({
         <JourneyRail current={step} />
         <main className="min-w-0 flex-1">
           <Stepper current={step} />
-          <div className="mt-6 lg:mt-0">{children}</div>
+          <PatientA11yBar className="mt-6" />
+          <CaptionBar className="mt-4" />
+          <div className="mt-6">{children}</div>
         </main>
       </div>
     </div>
