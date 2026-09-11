@@ -53,7 +53,7 @@ interface Bubble {
 
 function InterviewPage() {
   const navigate = useNavigate();
-  const { activeCase, ensureCase, saveAnswer, addRedFlags, settings, setSettings, hydrated } =
+  const { activeCase, ensureCase, saveAnswer, addRedFlags, settings, hydrated } =
     useAyu();
   const [index, setIndex] = useState(0);
   const [draft, setDraft] = useState("");
@@ -63,7 +63,7 @@ function InterviewPage() {
   const [listening, setListening] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const pendingAnswer = useRef<string>("");
-  const { say, t } = useA11y();
+  const { say } = useA11y();
 
   useEffect(() => {
     if (hydrated) ensureCase();
@@ -114,8 +114,8 @@ function InterviewPage() {
       });
     } else if (index === 0) {
       say({
-        en: `${SCREEN_GUIDE.interview!.title.en} ${SCREEN_GUIDE.interview!.instructions.en} ${question.en}`,
-        hi: `${SCREEN_GUIDE.interview!.title.hi} ${SCREEN_GUIDE.interview!.instructions.hi} ${question.hi}`,
+        en: `${SCREEN_GUIDE["interview"]!.title.en} ${SCREEN_GUIDE["interview"]!.instructions.en} ${question.en}`,
+        hi: `${SCREEN_GUIDE["interview"]!.title.hi} ${SCREEN_GUIDE["interview"]!.instructions.hi} ${question.hi}`,
       });
     } else {
       say(question);

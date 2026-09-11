@@ -53,7 +53,7 @@ function answerText(a: Answer) {
 
 function ReviewPage() {
   const navigate = useNavigate();
-  const { activeCase, ensureCase, updateCase, saveAnswer, submitCase, settings, hydrated } =
+  const { activeCase, ensureCase, updateCase, saveAnswer, submitCase, hydrated } =
     useAyu();
   const [editProfile, setEditProfile] = useState(false);
   const [editingAnswer, setEditingAnswer] = useState<string | null>(null);

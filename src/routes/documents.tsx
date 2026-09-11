@@ -66,7 +66,7 @@ function todayLabel() {
 
 function DocumentsPage() {
   const navigate = useNavigate();
-  const { activeCase, ensureCase, addDocument, updateDocument, removeDocument, settings, hydrated } =
+  const { activeCase, ensureCase, addDocument, updateDocument, removeDocument, hydrated } =
     useAyu();
   const [kind, setKind] = useState<DocumentKind>("Prescription");
   const [facility, setFacility] = useState("");
