@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Accessibility, Building2, Languages, Lock, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { AccessibilityButton } from "./Accessibility";
 import { useAyu } from "@/lib/ayucase/store";
 import { LANGUAGES } from "@/lib/ayucase/types";
 
@@ -205,8 +206,9 @@ export function AppHeader({
         <Link to="/" aria-label="AyuCase home">
           <Logo />
         </Link>
-        <div className="flex items-center gap-3">
-          <AbdmBadge className="hidden sm:inline-flex" />
+        <div className="flex flex-wrap items-center gap-3">
+          <AbdmBadge className="hidden lg:inline-flex" />
+          <AccessibilityButton />
           {right}
         </div>
       </div>

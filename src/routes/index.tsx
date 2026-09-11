@@ -2,7 +2,9 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
   ArrowRight,
   Contrast,
+  Ear,
   FileText,
+  HandHeart,
   Lock,
   RotateCcw,
   Stethoscope,
@@ -20,7 +22,18 @@ import {
   StatusBar,
 } from "@/components/ayucase/Brand";
 import { CASE_STEPS } from "@/components/ayucase/Stepper";
-import { useAyu, speak } from "@/lib/ayucase/store";
+import {
+  AccessibilityButton,
+  CaptionBar,
+  ListenButton,
+  SignLanguagePanel,
+  SpeechSpeedControl,
+  StopAudioButton,
+  VisualQuestionCard,
+} from "@/components/ayucase/Accessibility";
+import { useAyu } from "@/lib/ayucase/store";
+import { useA11y, useScreenAudio } from "@/lib/ayucase/a11y";
+import { CONFIRMATIONS, SCREEN_GUIDE, SIGN_PHRASES } from "@/lib/ayucase/i18n";
 import { LANGUAGES } from "@/lib/ayucase/types";
 import { cn } from "@/lib/utils";
 
@@ -49,8 +62,28 @@ export const Route = createFileRoute("/")({
 function Landing() {
   const navigate = useNavigate();
   const { settings, setSettings, startCase, activeCase } = useAyu();
+  const { say } = useA11y();
+  useScreenAudio(SCREEN_GUIDE["home"]);
 
   const toggles = [
+    {
+      key: "audioGuide" as const,
+      icon: Volume2,
+      label: "Audio Guidance / आवाज़ सहायता",
+      hint: "Screens and questions are read aloud",
+    },
+    {
+      key: "visualGuide" as const,
+      icon: Ear,
+      label: "Visual Guidance / दृश्य सहायता",
+      hint: "Large text, icons and captions instead of sound",
+    },
+    {
+      key: "signPanel" as const,
+      icon: HandHeart,
+      label: "Sign-language assistant / सांकेतिक भाषा",
+      hint: "Demo: Indian Sign Language guidance for common prompts",
+    },
     {
       key: "largeText" as const,
       icon: Type,
@@ -63,12 +96,6 @@ function Landing() {
       label: "High contrast / गहरा रंग",
       hint: "Stronger black and white",
     },
-    {
-      key: "audioGuide" as const,
-      icon: Volume2,
-      label: "Audio guide / आवाज़ सहायता",
-      hint: "Questions are read aloud",
-    },
   ];
 
   return (
@@ -77,8 +104,12 @@ function Landing() {
       <main className="mx-auto max-w-6xl px-4 py-8 md:py-12">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <Logo tone="dark" />
-          <AbdmBadge className="border-warning/40 bg-navy-deep/50 text-primary-foreground" />
+          <div className="flex flex-wrap items-center gap-3">
+            <AccessibilityButton tone="dark" />
+            <AbdmBadge className="border-warning/40 bg-navy-deep/50 text-primary-foreground" />
+          </div>
         </div>
+
 
         <section className="mt-8 grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
           <div>
@@ -96,10 +127,19 @@ function Landing() {
               and walk into the doctor's room with everything already organised.
             </p>
 
+            <VisualQuestionCard text={SIGN_PHRASES[1]!.text} icon="language" />
+
             <div className="mt-8 rounded-3xl glass-panel-dark p-5">
-              <h2 className="text-base font-bold text-primary-foreground">
-                Choose your language / अपनी भाषा चुनें
-              </h2>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <h2 className="text-base font-bold text-primary-foreground">
+                  Choose your language / अपनी भाषा चुनें
+                </h2>
+                <ListenButton
+                  label="Listen / सुनें"
+                  text={SIGN_PHRASES[1]!.text}
+                  className="bg-primary-foreground/15 text-primary-foreground hover:bg-primary-foreground/25"
+                />
+              </div>
               <div className="mt-4 grid gap-3 sm:grid-cols-3">
                 {LANGUAGES.map((lang) => {
                   const active = settings.language === lang.code;
@@ -109,8 +149,9 @@ function Landing() {
                       type="button"
                       onClick={() => {
                         setSettings({ language: lang.code });
-                        speak(lang.native, settings.audioGuide, lang.code);
+                        say(lang.native);
                       }}
+
                       aria-pressed={active}
                       className={cn(
                         "min-h-16 rounded-2xl border-2 px-4 py-3 text-left transition-colors",

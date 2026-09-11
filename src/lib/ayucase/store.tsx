@@ -18,11 +18,19 @@ import type {
   RedFlag,
 } from "./types";
 
+export type SpeechRate = "slow" | "normal" | "fast";
+
 interface Settings {
   language: LanguageCode;
   largeText: boolean;
   highContrast: boolean;
+  /** Reads screens, questions and confirmations aloud. Never autoplays when off. */
   audioGuide: boolean;
+  /** Large text + icons + captions for deaf and hard-of-hearing patients. */
+  visualGuide: boolean;
+  /** Optional Indian Sign Language demo panel on the interview screen. */
+  signPanel: boolean;
+  speechRate: SpeechRate;
 }
 
 interface Persisted {
@@ -38,7 +46,11 @@ const DEFAULT_SETTINGS: Settings = {
   largeText: false,
   highContrast: false,
   audioGuide: false,
+  visualGuide: false,
+  signPanel: false,
+  speechRate: "normal",
 };
+
 
 export const emptyProfile: PatientProfile = {
   name: "",
