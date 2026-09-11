@@ -11,7 +11,14 @@ import { toast } from "sonner";
 import { AiOrb, ClinicalDisclaimer } from "@/components/ayucase/Brand";
 import { KioskShell } from "@/components/ayucase/Stepper";
 import { RedFlagCard } from "@/components/ayucase/RedFlagCard";
-import { useAyu, speak } from "@/lib/ayucase/store";
+import {
+  ListenButton,
+  SignLanguagePanel,
+  VisualQuestionCard,
+} from "@/components/ayucase/Accessibility";
+import { useAyu } from "@/lib/ayucase/store";
+import { useA11y } from "@/lib/ayucase/a11y";
+import { CONFIRMATIONS, questionBilingual, SCREEN_GUIDE } from "@/lib/ayucase/i18n";
 import { buildQuestionFlow, type Question } from "@/lib/ayucase/questions";
 import { detectRedFlags } from "@/lib/ayucase/redFlags";
 import { SECTIONS } from "@/lib/ayucase/types";
@@ -55,6 +62,8 @@ function InterviewPage() {
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
   const [listening, setListening] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const pendingAnswer = useRef<string>("");
+  const { say, t } = useA11y();
 
   useEffect(() => {
     if (hydrated) ensureCase();
@@ -77,6 +86,7 @@ function InterviewPage() {
 
   const current: Question | undefined = flow[index];
   const done = !current;
+  const currentText = current ? questionBilingual(current.id, current.text) : undefined;
 
   // Skip ahead over questions already answered in a previous session.
   useEffect(() => {
@@ -94,8 +104,23 @@ function InterviewPage() {
         ? prev
         : [...prev, { id: `q-${current.id}`, role: "ai", text: current.text }],
     );
-    speak(current.text, settings.audioGuide, settings.language);
-  }, [current, settings.audioGuide, settings.language]);
+    const question = questionBilingual(current.id, current.text);
+    if (pendingAnswer.current) {
+      const answer = pendingAnswer.current;
+      pendingAnswer.current = "";
+      say({
+        en: `${answer}. ${CONFIRMATIONS.answerSaved.en} ${question.en}`,
+        hi: `${answer}. ${CONFIRMATIONS.answerSaved.hi} ${question.hi}`,
+      });
+    } else if (index === 0) {
+      say({
+        en: `${SCREEN_GUIDE.interview!.title.en} ${SCREEN_GUIDE.interview!.instructions.en} ${question.en}`,
+        hi: `${SCREEN_GUIDE.interview!.title.hi} ${SCREEN_GUIDE.interview!.instructions.hi} ${question.hi}`,
+      });
+    } else {
+      say(question);
+    }
+  }, [current, index, say]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -116,12 +141,14 @@ function InterviewPage() {
       { id: `a-${current.id}`, role: "patient", text: skipped ? "Skipped for now" : value },
     ]);
     if (!skipped) {
+      pendingAnswer.current = value;
       const flags = detectRedFlags(value, `Patient interview — "${current.text}"`);
       if (flags.length) {
         addRedFlags(flags);
         toast.warning("Possible urgent symptom noted", {
           description: "Please tell hospital staff. A doctor will review this.",
         });
+        say(CONFIRMATIONS.emergency);
       }
     }
     setDraft("");
@@ -195,14 +222,7 @@ function InterviewPage() {
                   </p>
                 </div>
               </div>
-              <Label className="flex items-center gap-2 text-xs text-muted-foreground">
-                Read aloud
-                <Switch
-                  checked={settings.audioGuide}
-                  onCheckedChange={(v) => setSettings({ audioGuide: v })}
-                  aria-label="Audio-guided mode"
-                />
-              </Label>
+              {currentText && <ListenButton text={currentText} />}
             </header>
 
             <div className="flex-1 space-y-4 overflow-y-auto px-5 py-5" aria-live="polite">
@@ -253,6 +273,9 @@ function InterviewPage() {
                 </div>
               ) : (
                 <div className="space-y-4">
+                  {currentText && (
+                    <VisualQuestionCard text={currentText} icon={current?.id === "chief-complaint" ? "complaint" : "symptoms"} />
+                  )}
                   {current?.helper && (
                     <p className="text-sm text-muted-foreground">{current.helper}</p>
                   )}
@@ -285,14 +308,25 @@ function InterviewPage() {
                       {current?.chips?.length ? (
                         <div className="flex flex-wrap gap-2">
                           {current.chips.map((chip) => (
-                            <button
+                            <Button
                               key={chip}
                               type="button"
+                              variant="outline"
                               onClick={() => commit(chip)}
-                              className="min-h-11 rounded-full border-2 border-border bg-background px-4 py-2 text-base font-medium text-foreground transition-colors hover:border-primary hover:bg-primary-soft"
+                              onKeyDown={(event) => {
+                                if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+                                event.preventDefault();
+                                const items = Array.from(
+                                  event.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>("button") ?? [],
+                                );
+                                const at = items.indexOf(event.currentTarget);
+                                const move = event.key === "ArrowRight" ? 1 : -1;
+                                items[(at + move + items.length) % items.length]?.focus();
+                              }}
+                              className="min-h-11 rounded-full border-2 px-4 py-2 text-base font-medium"
                             >
                               {chip}
-                            </button>
+                            </Button>
                           ))}
                         </div>
                       ) : null}
@@ -309,6 +343,7 @@ function InterviewPage() {
                           {listening ? "Listening…" : "Speak"}
                         </Button>
                         <Input
+                          aria-label="Type your answer"
                           value={draft}
                           onChange={(e) => setDraft(e.target.value)}
                           onKeyDown={(e) => {
@@ -348,6 +383,7 @@ function InterviewPage() {
           </section>
 
           <aside className="space-y-5">
+            <SignLanguagePanel phraseId={current?.id === "chief-complaint" ? "complaint" : "symptoms"} />
             <div className="rounded-3xl border border-border bg-card p-5 shadow-card">
               <div className="flex items-baseline justify-between">
                 <h2 className="text-lg font-bold text-foreground">Case Progress</h2>
