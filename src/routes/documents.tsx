@@ -20,9 +20,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ClinicalDisclaimer } from "@/components/ayucase/Brand";
+import { ListenButton, VisualQuestionCard } from "@/components/ayucase/Accessibility";
 import { KioskShell } from "@/components/ayucase/Stepper";
 import { ConfidenceBadge } from "@/components/ayucase/ConfidenceBadge";
-import { useAyu, speak } from "@/lib/ayucase/store";
+import { useAyu } from "@/lib/ayucase/store";
+import { useA11y, useScreenAudio } from "@/lib/ayucase/a11y";
+import { CONFIRMATIONS, SCREEN_GUIDE } from "@/lib/ayucase/i18n";
 import { uploadDocumentPhoto } from "@/lib/ayucase/documentStorage";
 import { extractDocumentFields } from "@/lib/ayucase/ocr.functions";
 import type { DocumentKind, MedicalDocument } from "@/lib/ayucase/types";
@@ -63,10 +66,12 @@ function todayLabel() {
 
 function DocumentsPage() {
   const navigate = useNavigate();
-  const { activeCase, ensureCase, addDocument, updateDocument, removeDocument, settings, hydrated } =
+  const { activeCase, ensureCase, addDocument, updateDocument, removeDocument, hydrated } =
     useAyu();
   const [kind, setKind] = useState<DocumentKind>("Prescription");
   const [facility, setFacility] = useState("");
+  const { say } = useA11y();
+  useScreenAudio(SCREEN_GUIDE["documents"], hydrated);
   const cameraRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -107,6 +112,10 @@ function DocumentsPage() {
             { label: "Details from this paper", value: message, confidence: "Needs Review" },
           ],
         });
+        say({
+          en: `The document could not be read clearly. ${message}`,
+          hi: "दस्तावेज़ साफ़ नहीं पढ़ा जा सका। कृपया जानकारी खुद भरें।",
+        });
       };
 
       if (!file.type.startsWith("image/")) {
@@ -135,7 +144,7 @@ function DocumentsPage() {
       reader.readAsDataURL(file);
     });
     setFacility("");
-    speak("Your document is being read. Please check the details after a moment.", settings.audioGuide, settings.language);
+    say(CONFIRMATIONS.documentAdded);
   };
 
   return (
@@ -150,6 +159,10 @@ function DocumentsPage() {
               Take a clear photo of each paper, one at a time. AyuCase reads the important details
               and shows how sure it is. You can correct anything that looks wrong.
             </p>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <ListenButton text={SCREEN_GUIDE["documents"]!.instructions} />
+            </div>
+            <VisualQuestionCard text={SCREEN_GUIDE["documents"]!.instructions} icon="documents" />
 
             <div className="mt-6 rounded-3xl border border-border bg-card p-5 shadow-card sm:p-6">
               <div className="grid gap-4 sm:grid-cols-2">

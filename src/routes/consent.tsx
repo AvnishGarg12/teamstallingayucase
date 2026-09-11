@@ -14,7 +14,10 @@ import {
 } from "@/components/ui/select";
 import { ClinicalDisclaimer, OpdTokenCard } from "@/components/ayucase/Brand";
 import { KioskShell } from "@/components/ayucase/Stepper";
+import { ListenButton, VisualQuestionCard } from "@/components/ayucase/Accessibility";
 import { useAyu, emptyProfile } from "@/lib/ayucase/store";
+import { useA11y, useScreenAudio } from "@/lib/ayucase/a11y";
+import { SCREEN_GUIDE } from "@/lib/ayucase/i18n";
 import type { PatientProfile } from "@/lib/ayucase/types";
 
 export const Route = createFileRoute("/consent")({
@@ -44,6 +47,8 @@ function ConsentPage() {
   const [consent, setConsent] = useState(false);
   const [profile, setProfile] = useState<PatientProfile>(emptyProfile);
   const [touched, setTouched] = useState(false);
+  const { say } = useA11y();
+  useScreenAudio(SCREEN_GUIDE["consent"], hydrated);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -61,6 +66,21 @@ function ConsentPage() {
     !profile.gender ||
     profile.mobile.replace(/\D/g, "").length < 10 ||
     !profile.city.trim();
+
+  useEffect(() => {
+    if (!touched) return;
+    if (!consent) {
+      say({
+        en: "Please tick the consent box to continue.",
+        hi: "आगे बढ़ने के लिए कृपया सहमति का बॉक्स चुनें।",
+      });
+    } else if (missing) {
+      say({
+        en: "Please fill name, age, gender, a ten digit mobile number and city.",
+        hi: "कृपया नाम, उम्र, लिंग, दस अंकों का मोबाइल नंबर और शहर भरें।",
+      });
+    }
+  }, [touched, consent, missing, say]);
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -93,7 +113,11 @@ function ConsentPage() {
         </div>
 
         <section className="mt-6 rounded-3xl border-2 border-primary/30 bg-primary-soft p-6">
-          <h2 className="text-lg font-bold text-foreground">Consent — in simple words</h2>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 className="text-lg font-bold text-foreground">Consent — in simple words</h2>
+            <ListenButton text={SCREEN_GUIDE["consent"]!.instructions} />
+          </div>
+          <VisualQuestionCard text={SCREEN_GUIDE["consent"]!.instructions} icon="welcome" />
           <p className="mt-2 text-base text-foreground">
             AyuCase will ask you questions about your health and store your answers and uploaded
             documents. Your doctor at this hospital will see them. Nobody else sees your information
@@ -122,7 +146,7 @@ function ConsentPage() {
             </span>
           </label>
           {touched && !consent && (
-            <p className="mt-2 text-sm font-semibold text-danger">
+            <p className="mt-2 text-sm font-semibold text-danger" role="alert" aria-live="assertive">
               Please tick the consent box to continue.
             </p>
           )}
@@ -133,6 +157,7 @@ function ConsentPage() {
           <div className="mt-4 grid gap-5 sm:grid-cols-2">
             <Field label="Full name" required>
               <Input
+                aria-label="Full name, required"
                 value={profile.name}
                 onChange={(e) => set("name", e.target.value)}
                 placeholder="Meera Sharma"
@@ -142,6 +167,7 @@ function ConsentPage() {
             </Field>
             <Field label="Age" required>
               <Input
+                aria-label="Age, required"
                 value={profile.age}
                 onChange={(e) => set("age", e.target.value.replace(/\D/g, "").slice(0, 3))}
                 placeholder="54"
@@ -154,7 +180,7 @@ function ConsentPage() {
                 value={profile.gender}
                 onValueChange={(v) => set("gender", v as PatientProfile["gender"])}
               >
-                <SelectTrigger className="h-12 w-full text-base">
+                <SelectTrigger className="h-12 w-full text-base" aria-label="Gender, required">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
@@ -166,6 +192,7 @@ function ConsentPage() {
             </Field>
             <Field label="Mobile number" required>
               <Input
+                aria-label="Mobile number, required"
                 value={profile.mobile}
                 onChange={(e) => set("mobile", e.target.value.replace(/[^\d ]/g, "").slice(0, 12))}
                 placeholder="98220 41127"
@@ -175,6 +202,7 @@ function ConsentPage() {
             </Field>
             <Field label="City / town" required>
               <Input
+                aria-label="City or town, required"
                 value={profile.city}
                 onChange={(e) => set("city", e.target.value)}
                 placeholder="Nagpur"
@@ -183,6 +211,7 @@ function ConsentPage() {
             </Field>
             <Field label="ABHA ID (optional)">
               <Input
+                aria-label="ABHA ID, optional"
                 value={profile.abhaId ?? ""}
                 onChange={(e) => set("abhaId", e.target.value)}
                 placeholder="12-3456-7890-1234"
@@ -192,6 +221,7 @@ function ConsentPage() {
             <div className="sm:col-span-2">
               <Field label="Emergency contact (optional)">
                 <Input
+                  aria-label="Emergency contact, optional"
                   value={profile.emergencyContact ?? ""}
                   onChange={(e) => set("emergencyContact", e.target.value)}
                   placeholder="Name and phone number"
@@ -202,7 +232,7 @@ function ConsentPage() {
           </div>
 
           {touched && missing && (
-            <p className="mt-4 text-sm font-semibold text-danger">
+            <p className="mt-4 text-sm font-semibold text-danger" role="alert" aria-live="assertive">
               Please fill name, age, gender, a 10-digit mobile number and city.
             </p>
           )}
