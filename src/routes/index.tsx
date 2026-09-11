@@ -246,18 +246,20 @@ function Landing() {
                       onCheckedChange={(checked) => {
                         setSettings({ [key]: checked });
                         if (key === "audioGuide" && checked)
-                          speak(
-                            "Audio guided mode is on. Questions will be read aloud.",
-                            true,
-                            settings.language,
-                          );
+                          say(CONFIRMATIONS.audioOn, { force: true });
                       }}
                     />
                   </div>
                 ))}
               </div>
+              <SpeechSpeedControl className="mt-4 rounded-2xl border border-border bg-surface p-4" />
+              <div className="mt-3 flex flex-wrap gap-2">
+                <StopAudioButton />
+              </div>
             </div>
 
+            <CaptionBar />
+            <SignLanguagePanel phraseId="welcome" />
             <ClinicalDisclaimer />
 
             <div className="rounded-3xl border border-border bg-card p-6 shadow-card">

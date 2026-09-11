@@ -13,9 +13,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { AppHeader, ClinicalDisclaimer, OpdTokenCard } from "@/components/ayucase/Brand";
+import { CaptionBar, ListenButton, PatientA11yBar, VisualQuestionCard } from "@/components/ayucase/Accessibility";
 import { KioskShell } from "@/components/ayucase/Stepper";
 import { ConfidenceBadge } from "@/components/ayucase/ConfidenceBadge";
-import { useAyu, speak } from "@/lib/ayucase/store";
+import { useAyu } from "@/lib/ayucase/store";
+import { useA11y, useScreenAudio } from "@/lib/ayucase/a11y";
+import { CONFIRMATIONS, SCREEN_GUIDE } from "@/lib/ayucase/i18n";
 import { SECTIONS, type Answer, type SectionId } from "@/lib/ayucase/types";
 import { cn } from "@/lib/utils";
 
@@ -56,20 +59,12 @@ function ReviewPage() {
   const [editingAnswer, setEditingAnswer] = useState<string | null>(null);
   const [draft, setDraft] = useState("");
   const [done, setDone] = useState(false);
+  const { say } = useA11y();
+  useScreenAudio(SCREEN_GUIDE["review"], hydrated);
 
   useEffect(() => {
     if (hydrated) ensureCase();
   }, [hydrated, ensureCase]);
-
-  useEffect(() => {
-    if (hydrated) {
-      speak(
-        "Please check everything on this page. If something is wrong, you can change it before sending it to the doctor.",
-        settings.audioGuide,
-        settings.language,
-      );
-    }
-  }, [hydrated, settings.audioGuide, settings.language]);
 
   const profile = activeCase?.profile;
   const answers = activeCase?.answers ?? [];
@@ -93,11 +88,7 @@ function ReviewPage() {
   const handleSubmit = () => {
     submitCase();
     setDone(true);
-    speak(
-      "Your case has been sent to the doctor. Please wait for your name to be called.",
-      settings.audioGuide,
-      settings.language,
-    );
+    say(CONFIRMATIONS.caseSent);
   };
 
   if (done) {
@@ -105,6 +96,8 @@ function ReviewPage() {
       <div className="min-h-screen bg-clinical">
         <AppHeader />
         <main className="mx-auto max-w-2xl px-4 py-16 text-center">
+          <PatientA11yBar />
+          <CaptionBar className="mt-4 text-left" />
           <span className="mx-auto flex size-20 items-center justify-center rounded-full bg-success-soft text-success">
             <CheckCircle2 className="size-10" aria-hidden />
           </span>
@@ -150,7 +143,9 @@ function ReviewPage() {
                 This is what the doctor will see. Read it once, change anything that is wrong, then
                 press the send button.
               </p>
+              <ListenButton className="mt-4" text={SCREEN_GUIDE["review"]!.instructions} />
             </div>
+            <VisualQuestionCard text={SCREEN_GUIDE["review"]!.instructions} icon="ready" />
 
             {redFlags.length > 0 && (
               <div className="rounded-3xl border-2 border-danger/40 bg-danger-soft p-5">
