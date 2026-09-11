@@ -10,5 +10,5 @@
 - [x] Doctor notes saved back to the case record
 - [x] Store document photos centrally (currently only extracted details are shared)
 - [x] Live queue updates without refresh
-- [ ] Real text extraction from document photos (currently simulated)
-- [ ] Restrict console access to approved clinic staff only
+- [x] Real text extraction from document photos (Lovable AI reads each photo)
+- [x] Restrict console access to approved clinic staff only (photos and cases are staff-only)
