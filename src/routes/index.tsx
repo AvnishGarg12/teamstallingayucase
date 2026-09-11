@@ -127,11 +127,7 @@ function Landing() {
               and walk into the doctor's room with everything already organised.
             </p>
 
-            <VisualQuestionCard
-              text={SIGN_PHRASES[1]!.text}
-              icon="language"
-              children={undefined}
-            />
+            <VisualQuestionCard text={SIGN_PHRASES[1]!.text} icon="language" />
 
             <div className="mt-8 rounded-3xl glass-panel-dark p-5">
               <div className="flex flex-wrap items-center justify-between gap-3">
@@ -153,7 +149,7 @@ function Landing() {
                       type="button"
                       onClick={() => {
                         setSettings({ language: lang.code });
-                        say(lang.native, { force: settings.audioGuide });
+                        say(lang.native);
                       }}
 
                       aria-pressed={active}
