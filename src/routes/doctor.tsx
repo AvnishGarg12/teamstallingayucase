@@ -12,6 +12,7 @@ import {
   MessageSquareText,
   Printer,
   Search,
+  ShieldCheck,
   Stethoscope,
   TriangleAlert,
   Users,
