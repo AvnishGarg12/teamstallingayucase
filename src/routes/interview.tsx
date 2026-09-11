@@ -123,6 +123,16 @@ function InterviewPage() {
   }, [current, index, say]);
 
   useEffect(() => {
+    if (!done || !pendingAnswer.current) return;
+    const answer = pendingAnswer.current;
+    pendingAnswer.current = "";
+    say({
+      en: `${answer}. Answer saved. All sections are covered. Next, add any old prescriptions or reports.`,
+      hi: `${answer}. जवाब सुरक्षित हो गया। सभी सवाल पूरे हो गए हैं। अब पुराने पर्चे या रिपोर्ट जोड़ें।`,
+    });
+  }, [done, say]);
+
+  useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [bubbles]);
 
@@ -165,6 +175,10 @@ function InterviewPage() {
       toast.info("Voice input is not available in this browser", {
         description: "Please type your answer or pick an option below.",
       });
+      say({
+        en: "Voice input is not available in this browser. Please type your answer or pick an option.",
+        hi: "इस ब्राउज़र में बोलकर जवाब देना उपलब्ध नहीं है। कृपया जवाब लिखें या विकल्प चुनें।",
+      });
       return;
     }
     try {
@@ -177,7 +191,13 @@ function InterviewPage() {
         setDraft(String(event.results[0][0].transcript));
         setListening(false);
       };
-      recognition.onerror = () => setListening(false);
+      recognition.onerror = () => {
+        setListening(false);
+        say({
+          en: "I could not hear that. Please try again or type your answer.",
+          hi: "आवाज़ समझ नहीं आई। कृपया दोबारा बोलें या जवाब लिखें।",
+        });
+      };
       recognition.onend = () => setListening(false);
       recognition.start();
       setListening(true);

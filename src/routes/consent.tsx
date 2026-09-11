@@ -16,7 +16,7 @@ import { ClinicalDisclaimer, OpdTokenCard } from "@/components/ayucase/Brand";
 import { KioskShell } from "@/components/ayucase/Stepper";
 import { ListenButton, VisualQuestionCard } from "@/components/ayucase/Accessibility";
 import { useAyu, emptyProfile } from "@/lib/ayucase/store";
-import { useScreenAudio } from "@/lib/ayucase/a11y";
+import { useA11y, useScreenAudio } from "@/lib/ayucase/a11y";
 import { SCREEN_GUIDE } from "@/lib/ayucase/i18n";
 import type { PatientProfile } from "@/lib/ayucase/types";
 
@@ -47,6 +47,7 @@ function ConsentPage() {
   const [consent, setConsent] = useState(false);
   const [profile, setProfile] = useState<PatientProfile>(emptyProfile);
   const [touched, setTouched] = useState(false);
+  const { say } = useA11y();
   useScreenAudio(SCREEN_GUIDE["consent"], hydrated);
 
   useEffect(() => {
@@ -65,6 +66,21 @@ function ConsentPage() {
     !profile.gender ||
     profile.mobile.replace(/\D/g, "").length < 10 ||
     !profile.city.trim();
+
+  useEffect(() => {
+    if (!touched) return;
+    if (!consent) {
+      say({
+        en: "Please tick the consent box to continue.",
+        hi: "आगे बढ़ने के लिए कृपया सहमति का बॉक्स चुनें।",
+      });
+    } else if (missing) {
+      say({
+        en: "Please fill name, age, gender, a ten digit mobile number and city.",
+        hi: "कृपया नाम, उम्र, लिंग, दस अंकों का मोबाइल नंबर और शहर भरें।",
+      });
+    }
+  }, [touched, consent, missing, say]);
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -164,7 +180,7 @@ function ConsentPage() {
                 value={profile.gender}
                 onValueChange={(v) => set("gender", v as PatientProfile["gender"])}
               >
-                <SelectTrigger className="h-12 w-full text-base">
+                <SelectTrigger className="h-12 w-full text-base" aria-label="Gender, required">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>

@@ -112,6 +112,10 @@ function DocumentsPage() {
             { label: "Details from this paper", value: message, confidence: "Needs Review" },
           ],
         });
+        say({
+          en: `The document could not be read clearly. ${message}`,
+          hi: "दस्तावेज़ साफ़ नहीं पढ़ा जा सका। कृपया जानकारी खुद भरें।",
+        });
       };
 
       if (!file.type.startsWith("image/")) {

@@ -479,6 +479,10 @@ export function SignLanguagePanel({
   const [openPanel, setOpenPanel] = useState(true);
   const [selected, setSelected] = useState(phraseId);
 
+  if (selected !== phraseId && SIGN_PHRASES.some((p) => p.id === phraseId)) {
+    setSelected(phraseId);
+  }
+
   if (!settings.signPanel) return null;
 
   const phrase = SIGN_PHRASES.find((p) => p.id === selected) ?? SIGN_PHRASES[0]!;
