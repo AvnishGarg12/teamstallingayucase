@@ -31,6 +31,7 @@ import {
   StopAudioButton,
   VisualQuestionCard,
 } from "@/components/ayucase/Accessibility";
+import { RAHUL, MEERA } from "@/lib/ayucase/demoData";
 import { useAyu } from "@/lib/ayucase/store";
 import { useA11y, useScreenAudio } from "@/lib/ayucase/a11y";
 import { CONFIRMATIONS, SCREEN_GUIDE, SIGN_PHRASES } from "@/lib/ayucase/i18n";
@@ -61,7 +62,7 @@ export const Route = createFileRoute("/")({
 
 function Landing() {
   const navigate = useNavigate();
-  const { settings, setSettings, startCase, activeCase } = useAyu();
+  const { settings, setSettings, startCase, activeCase, loadDemo } = useAyu();
   const { say } = useA11y();
   useScreenAudio(SCREEN_GUIDE["home"]);
 
@@ -208,6 +209,46 @@ function Landing() {
                   Doctor Login
                 </span>
                 <ArrowRight className="size-5" aria-hidden />
+            <div className="mt-8 rounded-3xl border-2 border-warning/30 bg-warning-soft/30 p-6">
+              <h2 className="text-lg font-bold text-primary-foreground">
+                SIH Presentation: One-click Demo Scenarios
+              </h2>
+              <p className="mt-1 text-sm text-primary-foreground/80">
+                Instantly load pre-filled patient cases for the judges.
+              </p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  className="h-16 justify-between rounded-2xl border-2 border-primary/20 bg-card text-base font-bold text-navy hover:bg-surface"
+                  onClick={() => {
+                    loadDemo(MEERA);
+                    navigate({ to: "/review" });
+                  }}
+                >
+                  <span className="flex flex-col items-start leading-tight">
+                    <span>Scenario 1: Meera Sharma</span>
+                    <span className="text-xs font-normal opacity-70">Hindi · Chest Pain · Red Flags</span>
+                  </span>
+                  <ArrowRight className="size-5" aria-hidden />
+                </Button>
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  className="h-16 justify-between rounded-2xl border-2 border-primary/20 bg-card text-base font-bold text-navy hover:bg-surface"
+                  onClick={() => {
+                    loadDemo(RAHUL);
+                    navigate({ to: "/review" });
+                  }}
+                >
+                  <span className="flex flex-col items-start leading-tight">
+                    <span>Scenario 2: Rahul Verma</span>
+                    <span className="text-xs font-normal opacity-70">English · Fever · Routine</span>
+                  </span>
+                  <ArrowRight className="size-5" aria-hidden />
+                </Button>
+              </div>
+            </div>
               </Button>
             </div>
 
