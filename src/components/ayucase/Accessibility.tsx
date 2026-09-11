@@ -10,7 +10,6 @@ import {
   HandHeart,
   Hospital,
   Languages,
-  Play,
   Square,
   Stethoscope,
   Type,
@@ -590,5 +589,3 @@ function SignAvatar() {
     </svg>
   );
 }
-
-export { Play };
