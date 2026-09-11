@@ -297,3 +297,42 @@
   }
 }
 
+
+/* Accessibility: always-visible keyboard focus ring (Tab / arrow navigation). */
+:where(a, button, input, select, textarea, summary, video, [tabindex]):focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 0.6rem;
+}
+
+.hc :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 4px solid var(--color-foreground);
+}
+
+/* Sign-language avatar placeholder motion. */
+@keyframes ayu-sign-left {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50% { transform: translateY(-14px) rotate(-22deg); }
+}
+
+@keyframes ayu-sign-right {
+  0%, 100% { transform: translateY(-10px) rotate(14deg); }
+  50% { transform: translateY(2px) rotate(-4deg); }
+}
+
+.sign-wave-left {
+  transform-origin: 55px 100px;
+  animation: ayu-sign-left 2.2s ease-in-out infinite;
+}
+
+.sign-wave-right {
+  transform-origin: 145px 100px;
+  animation: ayu-sign-right 2.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sign-wave-left,
+  .sign-wave-right {
+    animation: none !important;
+  }
+}
