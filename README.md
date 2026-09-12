@@ -1,4 +1,4 @@
-# Remix of Remix of Remix of Remix of Remix of AyuCase Health Companion
+AyuCase Health Companion
 
 Build a polished, responsive web MVP named AyuCase for Smart India Hackathon problem statement SIH26047: Patient Case-Taking Software.
 
@@ -167,17 +167,8 @@ Design the app as a compelling hackathon demo with realistic interactions, not a
 
 Add a small “ABDM / FHIR-ready” badge, but do not claim live government-system integration.
 
-This project was built with [Lovable](https://lovable.dev).
 
-**Live app**: https://teamstallingayucase.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/19eca6ee-75db-434e-9db3-45541d0a2600).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+**Live app**: https://teamstalling.in/
 
 ## Development
 
