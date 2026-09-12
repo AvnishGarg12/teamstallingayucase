@@ -25,6 +25,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { AppHeader, ClinicalDisclaimer } from "@/components/ayucase/Brand";
 import { ConfidenceBadge } from "@/components/ayucase/ConfidenceBadge";
 import { RedFlagCard } from "@/components/ayucase/RedFlagCard";
+import { HealthTimeline } from "@/components/ayucase/HealthTimeline";
 import { useAyu } from "@/lib/ayucase/store";
 import { getDocumentPhotoUrl } from "@/lib/ayucase/documentStorage";
 import {
@@ -795,6 +796,8 @@ function DoctorPage() {
                     </Button>
                   </div>
                 </div>
+
+                <HealthTimeline record={selected} />
 
                 <ClinicalDisclaimer />
               </>

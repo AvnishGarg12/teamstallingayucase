@@ -14,6 +14,7 @@ import {
 import { AppHeader, ClinicalDisclaimer, OpdTokenCard } from "@/components/ayucase/Brand";
 import { ConfidenceBadge } from "@/components/ayucase/ConfidenceBadge";
 import { RedFlagCard } from "@/components/ayucase/RedFlagCard";
+import { HealthTimeline } from "@/components/ayucase/HealthTimeline";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DEMO_CASES } from "@/lib/ayucase/demoData";
@@ -212,6 +213,8 @@ function DoctorDemoPage() {
                 </Button>
               </div>
             </div>
+
+            <HealthTimeline record={selected} />
 
             <ClinicalDisclaimer />
           </section>
