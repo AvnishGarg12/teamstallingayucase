@@ -214,13 +214,13 @@ function Landing() {
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
               <Button
                 size="lg"
-                className="h-20 justify-between rounded-3xl bg-warning text-lg font-bold text-warning-foreground hover:bg-warning/90 sm:col-span-2"
+                className="h-auto min-h-20 min-w-0 w-full justify-between whitespace-normal rounded-3xl bg-warning px-4 text-left text-lg font-bold text-warning-foreground hover:bg-warning/90 sm:col-span-2"
                 onClick={() => {
                   startCase();
                   navigate({ to: "/consent" });
                 }}
               >
-                <span className="flex items-center gap-3">
+                 <span className="flex min-w-0 items-center gap-3">
                   <FileText className="size-6" aria-hidden />
                   Start New Case / नया केस शुरू करें
                 </span>
@@ -229,12 +229,12 @@ function Landing() {
               <Button
                 size="lg"
                 variant="outline"
-                className="h-16 justify-between rounded-2xl border-2 border-primary-foreground/40 bg-transparent text-base text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+                className="h-auto min-h-16 min-w-0 w-full justify-between whitespace-normal rounded-2xl border-2 border-primary-foreground/40 bg-transparent px-4 text-left text-base text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
                 onClick={() =>
                   navigate({ to: activeCase?.consentGiven ? "/interview" : "/consent" })
                 }
               >
-                <span className="flex items-center gap-3">
+                <span className="flex min-w-0 items-center gap-3">
                   <RotateCcw className="size-5" aria-hidden />
                   Continue Case / जारी रखें
                 </span>
@@ -243,10 +243,10 @@ function Landing() {
               <Button
                 size="lg"
                 variant="outline"
-                className="h-16 justify-between rounded-2xl border-2 border-primary-foreground/40 bg-transparent text-base text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+                className="h-auto min-h-16 min-w-0 w-full justify-between whitespace-normal rounded-2xl border-2 border-primary-foreground/40 bg-transparent px-4 text-left text-base text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
                 onClick={() => navigate({ to: "/doctor" })}
               >
-                <span className="flex items-center gap-3">
+                <span className="flex min-w-0 items-center gap-3">
                   <Stethoscope className="size-5" aria-hidden />
                    Secure Doctor Login
                 </span>
