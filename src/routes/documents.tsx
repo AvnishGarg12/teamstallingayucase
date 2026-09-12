@@ -28,6 +28,7 @@ import { useA11y, useScreenAudio } from "@/lib/ayucase/a11y";
 import { CONFIRMATIONS, SCREEN_GUIDE } from "@/lib/ayucase/i18n";
 import { uploadDocumentPhoto } from "@/lib/ayucase/documentStorage";
 import { extractDocumentFields } from "@/lib/ayucase/ocr.functions";
+import { MOCK_OCR_TEMPLATES } from "@/lib/ayucase/demoData";
 import type { DocumentKind, MedicalDocument } from "@/lib/ayucase/types";
 import { cn } from "@/lib/utils";
 
@@ -80,6 +81,26 @@ function DocumentsPage() {
   }, [hydrated, ensureCase]);
 
   const documents = activeCase?.documents ?? [];
+
+  // A reliable, explicitly fictional scan keeps the judging demo independent
+  // of network connectivity or AI credits. Real uploads still use the OCR flow
+  // below and never receive these placeholder values.
+  const addDemoScan = () => {
+    const id = `demo-scan-${Date.now()}`;
+    addDocument({
+      id,
+      fileName: `fictional-${kind.toLowerCase().replaceAll(" ", "-")}-sample.jpg`,
+      kind,
+      documentDate: "12 Sep 2026",
+      facility: "Fictional SIH Demo Clinic",
+      status: "extracted",
+      fields: MOCK_OCR_TEMPLATES[kind].map((field) => ({ ...field })),
+    });
+    say({
+      en: "Fictional sample scan added. These are demo values only.",
+      hi: "काल्पनिक नमूना स्कैन जोड़ा गया। ये केवल डेमो के लिए हैं।",
+    });
+  };
 
   const handleFiles = (files: FileList | null) => {
     if (!files?.length) return;
@@ -214,6 +235,19 @@ function DocumentsPage() {
                 >
                   <Upload className="size-5" aria-hidden />
                   Choose from phone
+                </Button>
+              </div>
+              <div className="mt-3 rounded-2xl border border-dashed border-primary/40 bg-primary-soft/40 p-3 sm:flex sm:items-center sm:justify-between sm:gap-4">
+                <p className="text-sm text-foreground">
+                  <strong>SIH demo:</strong> add a fictional sample scan to demonstrate extraction and patient-side correction without uploading real health information.
+                </p>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="mt-3 shrink-0 rounded-xl border-2 sm:mt-0"
+                  onClick={addDemoScan}
+                >
+                  Add sample scan
                 </Button>
               </div>
               <input
