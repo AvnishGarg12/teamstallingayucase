@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -47,14 +47,17 @@ function ConsentPage() {
   const [consent, setConsent] = useState(false);
   const [profile, setProfile] = useState<PatientProfile>(emptyProfile);
   const [touched, setTouched] = useState(false);
+  const loadedCaseId = useRef("");
   const { say } = useA11y();
   useScreenAudio(SCREEN_GUIDE["consent"], hydrated);
 
   useEffect(() => {
     if (!hydrated) return;
     const record = ensureCase();
+    if (loadedCaseId.current === record.id) return;
+    loadedCaseId.current = record.id;
     setConsent(record.consentGiven);
-    setProfile((p) => (p.name || !record.profile.name ? p : record.profile));
+    setProfile(record.profile);
   }, [hydrated, ensureCase]);
 
   const set = (key: keyof PatientProfile, value: string) =>
