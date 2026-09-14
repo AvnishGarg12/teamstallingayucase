@@ -1,10 +1,11 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   ArrowRight,
   Contrast,
   Ear,
   FileText,
   HandHeart,
+  HeartPulse,
   Lock,
   PlayCircle,
   RotateCcw,
@@ -15,13 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import {
-  AbdmBadge,
-  AiOrb,
-  ClinicalDisclaimer,
-  Logo,
-  StatusBar,
-} from "@/components/ayucase/Brand";
+import { AbdmBadge, AiOrb, ClinicalDisclaimer, Logo, StatusBar } from "@/components/ayucase/Brand";
 import { CASE_STEPS } from "@/components/ayucase/Stepper";
 import {
   AccessibilityButton,
@@ -111,7 +106,6 @@ function Landing() {
           </div>
         </div>
 
-
         <section className="mt-8 grid min-w-0 gap-8 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="min-w-0">
             <div className="flex items-center gap-4">
@@ -169,12 +163,19 @@ function Landing() {
               </div>
             </div>
 
-            <section className="mt-6 rounded-3xl border-2 border-warning/60 bg-navy-deep/50 p-5" aria-labelledby="sih-demo-title">
+            <section
+              className="mt-6 rounded-3xl border-2 border-warning/60 bg-navy-deep/50 p-5"
+              aria-labelledby="sih-demo-title"
+            >
               <div className="flex items-center gap-3">
                 <PlayCircle className="size-7 text-warning" aria-hidden />
                 <div>
-                  <h2 id="sih-demo-title" className="text-xl font-bold text-primary-foreground">Start SIH Demo</h2>
-                  <p className="text-sm text-primary-foreground/80">Choose a fictional, pre-filled patient journey.</p>
+                  <h2 id="sih-demo-title" className="text-xl font-bold text-primary-foreground">
+                    Start SIH Demo
+                  </h2>
+                  <p className="text-sm text-primary-foreground/80">
+                    Choose a fictional, pre-filled patient journey.
+                  </p>
                 </div>
               </div>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -187,7 +188,12 @@ function Landing() {
                     navigate({ to: "/consent" });
                   }}
                 >
-                  <span><strong className="block">Rahul Verma</strong><span className="block text-sm font-normal opacity-85">Routine fever and sore throat</span></span>
+                  <span>
+                    <strong className="block">Rahul Verma</strong>
+                    <span className="block text-sm font-normal opacity-85">
+                      Routine fever and sore throat
+                    </span>
+                  </span>
                 </Button>
                 <Button
                   size="lg"
@@ -197,7 +203,12 @@ function Landing() {
                     navigate({ to: "/consent" });
                   }}
                 >
-                  <span><strong className="block">Meera Sharma</strong><span className="block text-sm font-normal">Diabetes, hypertension and urgent symptoms</span></span>
+                  <span>
+                    <strong className="block">Meera Sharma</strong>
+                    <span className="block text-sm font-normal">
+                      Diabetes, hypertension and urgent symptoms
+                    </span>
+                  </span>
                 </Button>
               </div>
               <Button
@@ -208,6 +219,17 @@ function Landing() {
               >
                 <Stethoscope className="size-5" aria-hidden />
                 Open Doctor Demo Dashboard
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="mt-3 h-12 w-full rounded-2xl border-2 border-warning/60 bg-warning/10 font-bold text-primary-foreground hover:bg-warning/20 hover:text-primary-foreground"
+              >
+                <Link to="/services">
+                  <HeartPulse className="size-5" aria-hidden />
+                  Open Care Hub — appointments, records & support
+                </Link>
               </Button>
             </section>
 
@@ -220,7 +242,7 @@ function Landing() {
                   navigate({ to: "/consent" });
                 }}
               >
-                 <span className="flex min-w-0 items-center gap-3">
+                <span className="flex min-w-0 items-center gap-3">
                   <FileText className="size-6" aria-hidden />
                   Start New Case / नया केस शुरू करें
                 </span>
@@ -248,9 +270,9 @@ function Landing() {
               >
                 <span className="flex min-w-0 items-center gap-3">
                   <Stethoscope className="size-5" aria-hidden />
-                   Secure Doctor Login
+                  Secure Doctor Login
                 </span>
-                 <ArrowRight className="size-5" aria-hidden />
+                <ArrowRight className="size-5" aria-hidden />
               </Button>
             </div>
 

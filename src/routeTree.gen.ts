@@ -15,7 +15,9 @@ import { Route as DoctorRouteImport } from './routes/doctor'
 import { Route as DoctorDemoRouteImport } from './routes/doctor-demo'
 import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as InterviewRouteImport } from './routes/interview'
+import { Route as MvpRouteImport } from './routes/mvp'
 import { Route as ReviewRouteImport } from './routes/review'
+import { Route as ServicesRouteImport } from './routes/services'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -47,9 +49,19 @@ const InterviewRoute = InterviewRouteImport.update({
   path: '/interview',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MvpRoute = MvpRouteImport.update({
+  id: '/mvp',
+  path: '/mvp',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReviewRoute = ReviewRouteImport.update({
   id: '/review',
   path: '/review',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -60,7 +72,9 @@ export interface FileRoutesByFullPath {
   '/doctor-demo': typeof DoctorDemoRoute
   '/documents': typeof DocumentsRoute
   '/interview': typeof InterviewRoute
+  '/mvp': typeof MvpRoute
   '/review': typeof ReviewRoute
+  '/services': typeof ServicesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -69,7 +83,9 @@ export interface FileRoutesByTo {
   '/doctor-demo': typeof DoctorDemoRoute
   '/documents': typeof DocumentsRoute
   '/interview': typeof InterviewRoute
+  '/mvp': typeof MvpRoute
   '/review': typeof ReviewRoute
+  '/services': typeof ServicesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -79,7 +95,9 @@ export interface FileRoutesById {
   '/doctor-demo': typeof DoctorDemoRoute
   '/documents': typeof DocumentsRoute
   '/interview': typeof InterviewRoute
+  '/mvp': typeof MvpRoute
   '/review': typeof ReviewRoute
+  '/services': typeof ServicesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -90,7 +108,9 @@ export interface FileRouteTypes {
     | '/doctor-demo'
     | '/documents'
     | '/interview'
+    | '/mvp'
     | '/review'
+    | '/services'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -99,7 +119,9 @@ export interface FileRouteTypes {
     | '/doctor-demo'
     | '/documents'
     | '/interview'
+    | '/mvp'
     | '/review'
+    | '/services'
   id:
     | '__root__'
     | '/'
@@ -108,7 +130,9 @@ export interface FileRouteTypes {
     | '/doctor-demo'
     | '/documents'
     | '/interview'
+    | '/mvp'
     | '/review'
+    | '/services'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -118,7 +142,9 @@ export interface RootRouteChildren {
   DoctorDemoRoute: typeof DoctorDemoRoute
   DocumentsRoute: typeof DocumentsRoute
   InterviewRoute: typeof InterviewRoute
+  MvpRoute: typeof MvpRoute
   ReviewRoute: typeof ReviewRoute
+  ServicesRoute: typeof ServicesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -165,11 +191,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InterviewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mvp': {
+      id: '/mvp'
+      path: '/mvp'
+      fullPath: '/mvp'
+      preLoaderRoute: typeof MvpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/review': {
       id: '/review'
       path: '/review'
       fullPath: '/review'
       preLoaderRoute: typeof ReviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -182,7 +222,9 @@ const rootRouteChildren: RootRouteChildren = {
   DoctorDemoRoute: DoctorDemoRoute,
   DocumentsRoute: DocumentsRoute,
   InterviewRoute: InterviewRoute,
+  MvpRoute: MvpRoute,
   ReviewRoute: ReviewRoute,
+  ServicesRoute: ServicesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
